@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Home</title>
+    </head>
+    <body>
+        <div id="buttons">
+            <button id="procura_aluno">Procurar um aluno</button>
+            <button id="add_aluno">Adicionar professores</button>
+            <button id="update">Atualizar informções do curso</button>
+            <button id="delete">Deletar matérias</button>
+        </div>
+        <div id="content">
+            <button class="voltar">voltar</button>
+
+
+        </div>
+        <div id="proc">
+            <button class="voltar">voltar</button>
+            {% for a in alunos %}
+                {{ a.nome }}
+            {% endfor %}
+        </div>
+        <div id="add">
+            <button class="voltar">voltar</button>
+            <form id="campos" action="{% url 'add' %}" method="post">
+                {% csrf_token %}
+                <label>Nome</label> <input id="nome" name="nome" >
+                <label>RP</label> <input id="RP" name="RP">
+                <button type="submit">Enviar</button>
+            </form>
+  
+        </div>
+
+        <div id="del">
+            <button class="voltar">voltar</button>
+        </div>
+        <script src="{% static 'script.js' %}"></script>
+    </body>
+</html>
