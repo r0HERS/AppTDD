@@ -11,16 +11,23 @@
             <button id="update">Atualizar informções do curso</button>
             <button id="delete">Deletar matérias</button>
         </div>
-        <div id="content">
+        <div id="edit">
             <button class="voltar">voltar</button>
-
-
+            {% for c in cursos %}
+            <div>
+                {{ c.nome }} <a href="{% url 'edit' c.id %}">Editar</a>
+            </div>
+            {% endfor %}
         </div>
         <div id="proc">
             <button class="voltar">voltar</button>
-            {% for a in alunos %}
-                {{ a.nome }}
-            {% endfor %}
+            <form action="{% url 'search' %}" method="post" id="proc_form">
+                {% csrf_token %}
+                <input placeholder="Digite o RA de um aluno" name="RA">
+                <button type="submit">Procurar</button>
+            </form>
+
+
         </div>
         <div id="add">
             <button class="voltar">voltar</button>
@@ -35,7 +42,14 @@
 
         <div id="del">
             <button class="voltar">voltar</button>
+            {% for a in materias %}
+            <div>
+                {{ a.nome }} <a href="{% url 'del' a.id %}">Excluir</a>
+            </div>
+            {% endfor %}
+
         </div>
+
         <script src="{% static 'script.js' %}"></script>
     </body>
 </html>

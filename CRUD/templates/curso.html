@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{curso.nome}}</title>
+    </head>
+    <body>
+        <a href="{% url 'index' %}">Voltar</a>
+        <h1>{{curso.nome}}</h1> 
+        <div id="editar">
+            <form action="{% url 'edit' curso.id %}" method="post">
+                {% csrf_token %}
+                <span>Nome</span><input name="nome" value="{{curso.nome}}" placeholder="{{curso.nome}}">
+                <span>Campus</span><input name="campus" value="{{curso.campus}}" placeholder="{{curso.campus}}" >
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+        <div id="conteudo">
+
+            <h4>{{curso.campus}}</h4> 
+            <button id="edit">Editar</button>
+        </div>
+        <script src="{% static 'curso.js' %}"></script>
+    </body>
+</html>

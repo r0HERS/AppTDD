@@ -3,14 +3,18 @@ document.addEventListener('DOMContentLoaded', ()=>{
     document.querySelector('#add_aluno').addEventListener('click', () => add_aluno('Adiciona alunos'));
     document.querySelector('#update').addEventListener('click', () => atualiza('update'));
     document.querySelector('#delete').addEventListener('click', () => deleta('delete'));
-    document.querySelector('.voltar').addEventListener('click', ()=>index());
+    
+    var voltar = document.getElementsByClassName("voltar");
+    for (var i = 0; i < voltar.length; i++) {
+      voltar[i].addEventListener('click', () => index());
+    }
 
     index();
 });
 
 function index(){
     document.querySelector('#buttons').style.display = 'block';
-    document.querySelector('#content').style.display = 'none';
+    document.querySelector('#edit').style.display = 'none';
     document.querySelector('#proc').style.display = 'none';
     document.querySelector('#add').style.display = 'none';
     document.querySelector('#del').style.display = 'none';
@@ -19,16 +23,15 @@ function index(){
 
 function procura_aluno(title){
     document.querySelector('#buttons').style.display = 'none';
-    document.querySelector('#content').style.display = 'none';
+    document.querySelector('#edit').style.display = 'none';
     document.querySelector('#proc').style.display = 'block';
     document.querySelector('#add').style.display = 'none';
     document.querySelector('#del').style.display = 'none';
-
 }
 
 function add_aluno(title){
     document.querySelector('#buttons').style.display = 'none';
-    document.querySelector('#content').style.display = 'none';
+    document.querySelector('#edit').style.display = 'none';
     document.querySelector('#add').style.display = 'block';
     document.querySelector('#proc').style.display = 'none';
     document.querySelector('#del').style.display = 'none';
@@ -38,7 +41,7 @@ function add_aluno(title){
 
 function atualiza(title){
     document.querySelector('#buttons').style.display = 'none';
-    document.querySelector('#content').style.display = 'block';
+    document.querySelector('#edit').style.display = 'block';
     document.querySelector('#add').style.display = 'none';
     document.querySelector('#proc').style.display = 'none';
     document.querySelector('#del').style.display = 'none';
@@ -46,7 +49,7 @@ function atualiza(title){
 
 function deleta(title){
     document.querySelector('#buttons').style.display = 'none';
-    document.querySelector('#content').style.display = 'none';
+    document.querySelector('#edit').style.display = 'none';
     document.querySelector('#add').style.display = 'none';
     document.querySelector('#proc').style.display = 'none';
     document.querySelector('#del').style.display = 'block';
