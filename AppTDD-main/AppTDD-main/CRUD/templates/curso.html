@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{curso.nome}}</title>
+    </head>
+    <body>
+        <a href="{% url 'index' %}">Voltar</a>
+        <h1>{{curso.nome}}</h1> 
+        <div id="editar">
+            <form action="{% url 'edit' curso.id %}" method="post">
+                {% csrf_token %}
+                <span>Nome</span><input name="nome" value="{{curso.nome}}" placeholder="{{curso.nome}}">
+                <span>Campus</span><input name="campus" value="{{curso.campus}}" placeholder="{{curso.campus}}" >
+                <span>Excluir matéria do curso</span>
+                
+                <select name="materias">
+                    <option value=""></option>
+                    {% for m in materias %}
+                    <option value="{{m.materia.id}}">{{m.materia.nome}}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+        <div id="conteudo">
+            <h4>{{curso.campus}}</h4> 
+            <h6>Matérias</h6>
+            <ul>
+                {% for m in materias %}
+                <li>{{m.materia.nome}}</li>
+                {% endfor %}
+            </ul>
+            <button id="edit">Editar</button>
+        </div>
+        <script src="{% static 'curso.js' %}"></script>
+    </body>
+</html>
