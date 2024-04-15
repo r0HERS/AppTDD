@@ -67,3 +67,14 @@ class Cursos_materia(models.Model):
     class Meta:
         managed=False
         db_table='cursos_materia'
+
+class Professores_materia(models.Model):
+
+
+    professor=models.ForeignKey(Professores, on_delete=models.CASCADE,related_name='professores')
+    materia=models.ForeignKey(Materias,on_delete=models.CASCADE,related_name='materias_prof')
+
+
+    class Meta:
+        managed=False
+        db_table='professores_materia'

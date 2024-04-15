@@ -1,12 +1,36 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>{{aluno.nome}}</title>
+        <link href="{% static 'alunos.css' %}" rel="stylesheet">
     </head>
     <body>
         <a href="{% url 'index' %}">Voltar</a>
         <h1>{{aluno.nome}}</h1>
-        <h4>{{aluno.RA}}</h1>
+        <h4>RA: {{aluno.RA}}</h1>
         <h5>{{curso.nome}}</h5>
+
+        <table class="my-table">
+            <tr>
+                <td>Matéria</td>
+                <td>Professor</td>
+                <td>Carga horária</td>
+            </tr>
+            {% for m, p in mat_prof %}
+                <tr>
+                    <td>{{m.materia.nome}}</td>
+                    <td>
+                        <select>
+                            {% for prof in p %}
+                            <option>{{prof.professor.nome}}</option> 
+                            {% endfor %}
+                        </select>
+
+                    </td>
+                    <td>{{m.materia.carga_horaria}}</td>
+                </tr>
+            {% endfor %}
+        </table>
     </body>
 </html>

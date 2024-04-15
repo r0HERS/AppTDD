@@ -54,4 +54,6 @@ function deleta(title){
     document.querySelector('#proc').style.display = 'none';
     document.querySelector('#del').style.display = 'block';
 
+
+
 }
