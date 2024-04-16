@@ -23,7 +23,6 @@ def add(request):
         novo_professor=Professores(nome=nome,RP=RP)
         novo_professor.save()
         if request.POST['prof_mat'] != '':
-
              materia=Materias.objects.get(id=request.POST['prof_mat'])
 
              novo_prof=Professores_materia(professor=novo_professor,materia=materia)

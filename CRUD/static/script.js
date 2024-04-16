@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', ()=>{
-    document.querySelector('#procura_aluno').addEventListener('click', () => procura_aluno('procura aluno'));
+    document.querySelector('#alunos').addEventListener('click', () => alunos());
     document.querySelector('#add_aluno').addEventListener('click', () => add_aluno('Adiciona alunos'));
     document.querySelector('#update').addEventListener('click', () => atualiza('update'));
     document.querySelector('#delete').addEventListener('click', () => deleta('delete'));
@@ -9,51 +9,48 @@ document.addEventListener('DOMContentLoaded', ()=>{
       voltar[i].addEventListener('click', () => index());
     }
 
+    // botões alunos
+    document.querySelector('#botao_pc').addEventListener('click', () => show_pc());
+
     index();
 });
 
 function index(){
     document.querySelector('#buttons').style.display = 'block';
-    document.querySelector('#edit').style.display = 'none';
-    document.querySelector('#proc').style.display = 'none';
-    document.querySelector('#add').style.display = 'none';
-    document.querySelector('#del').style.display = 'none';
+
 
 }
 
-function procura_aluno(title){
+function alunos(title){
+    document.querySelector('#div_alunos').style.display = 'block';
     document.querySelector('#buttons').style.display = 'none';
-    document.querySelector('#edit').style.display = 'none';
-    document.querySelector('#proc').style.display = 'block';
-    document.querySelector('#add').style.display = 'none';
-    document.querySelector('#del').style.display = 'none';
+
 }
 
 function add_aluno(title){
-    document.querySelector('#buttons').style.display = 'none';
-    document.querySelector('#edit').style.display = 'none';
+
     document.querySelector('#add').style.display = 'block';
-    document.querySelector('#proc').style.display = 'none';
-    document.querySelector('#del').style.display = 'none';
+    document.querySelector('#buttons').style.display = 'none';
+
 
 
 }
 
 function atualiza(title){
-    document.querySelector('#buttons').style.display = 'none';
     document.querySelector('#edit').style.display = 'block';
-    document.querySelector('#add').style.display = 'none';
-    document.querySelector('#proc').style.display = 'none';
-    document.querySelector('#del').style.display = 'none';
+    document.querySelector('#buttons').style.display = 'none';
+
 }
 
 function deleta(title){
-    document.querySelector('#buttons').style.display = 'none';
-    document.querySelector('#edit').style.display = 'none';
-    document.querySelector('#add').style.display = 'none';
-    document.querySelector('#proc').style.display = 'none';
     document.querySelector('#del').style.display = 'block';
-
+    document.querySelector('#buttons').style.display = 'none';
 
 
 }
+// alunos
+
+function show_pc(){
+    document.querySelector('#pc').style.display = 'block';
+}
+

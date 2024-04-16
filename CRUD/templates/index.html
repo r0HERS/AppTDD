@@ -3,10 +3,12 @@
 <html lang="en">
     <head>
         <title>Home</title>
+        <link href="{% static 'index.css' %}" rel="stylesheet">
     </head>
     <body>
+        Escolha um dos tópicos para modificar 
         <div id="buttons">
-            <button id="procura_aluno">Procurar um aluno</button>
+            <button id="alunos">Alunos</button>
             <button id="add_aluno">Adicionar professores</button>
             <button id="update">Atualizar informções do curso</button>
             <button id="delete">Deletar matérias</button>
@@ -19,15 +21,20 @@
             </div>
             {% endfor %}
         </div>
-        <div id="proc">
+        <div id="div_alunos">
             <button class="voltar">voltar</button>
-            <form action="{% url 'search' %}" method="post" id="proc_form">
-                {% csrf_token %}
-                <input placeholder="Digite o RA de um aluno" name="RA">
-                <button type="submit">Procurar</button>
-            </form>
-
-
+            <button>Adicionar alunos</button>
+            <button id="botao_pc">Procurar aluno</button>
+            <button>Deletar alunos</button>
+            <button>Editar alunos</button>
+            <div id="pc">
+                <form action="{% url 'search' %}" method="post" id="proc_form">
+                    {% csrf_token %}
+                    <input placeholder="Digite o RA de um aluno" name="RA">
+                    <button type="submit">Procurar</button>
+                </form>
+            </div>
+            <div id="add_al"> ola</div>
         </div>
         <div id="add">
             <button class="voltar">voltar</button>
