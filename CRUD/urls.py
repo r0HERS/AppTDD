@@ -9,4 +9,8 @@ urlpatterns = [
     path("search",views.search,name="search"),
     path("edit/<str:c_id>",views.edit,name="edit"),
     path("att/<str:c_id>",views.edit,name="atualiza"),
+
+    #rota alunos
+
+    path("add_al",views.add_al,name="add_al")
 ]

@@ -81,6 +81,14 @@ def edit(request,c_id):
         })
 
 
+def add_al(request):
+    if request.method == "POST":
+        nome=request.POST["nome"]
+        RA=request.POST['RA']
+        curso=request.POST['al_curso']
+        novo_aluno=Alunos(nome=nome,RA=RA,curso_id=curso)
+        novo_aluno.save()
+    return HttpResponseRedirect(reverse("index"))
 
 
 
