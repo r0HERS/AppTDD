@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
 
     // botões alunos
     document.querySelector('#botao_pc').addEventListener('click', () => show_pc());
-
     index();
 });
 
