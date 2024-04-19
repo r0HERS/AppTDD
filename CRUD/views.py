@@ -227,15 +227,8 @@ def edit_materia(request,mat_id):
 
 def search_prof(request):
     a = Professores.objects.get(nome=request.POST["RA"]) 
-    c = Professores_materia.objects.filter(professor=a.id)
 
-    materias = [materia.materia for materia in c]
-       
-
-    return render(request,'professor.html',{
-        'professor':a,
-        'materias': materias,
-    })
+    return HttpResponseRedirect(reverse('edit_prof',args=[a.id]))
 
 def cria_prof(request):
     if request.method == "POST":
