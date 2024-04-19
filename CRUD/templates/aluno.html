@@ -6,31 +6,55 @@
         <link href="{% static 'alunos.css' %}" rel="stylesheet">
     </head>
     <body>
-        <a href="{% url 'index' %}">Voltar</a>
-        <h1>{{aluno.nome}}</h1>
-        <h4>RA: {{aluno.RA}}</h1>
-        <h5>{{curso.nome}}</h5>
-
-        <table class="my-table">
-            <tr>
-                <td>Matéria</td>
-                <td>Professor</td>
-                <td>Carga horária</td>
-            </tr>
-            {% for m, p in mat_prof %}
+        <div id="content">
+            <a href="{% url 'index' %}">Voltar</a>
+            <h1>{{aluno.nome}}</h1> 
+            <h4>RA: {{aluno.RA}}</h1>
+            <h5>{{curso.nome}}</h5>
+    
+            <table class="my-table">
                 <tr>
-                    <td>{{m.materia.nome}}</td>
-                    <td>
-                        <select>
-                            {% for prof in p %}
-                            <option>{{prof.professor.nome}}</option> 
-                            {% endfor %}
-                        </select>
-
-                    </td>
-                    <td>{{m.materia.carga_horaria}}</td>
+                    <td>Matéria</td>
+                    <td>Professor</td>
+                    <td>Carga horária</td>
                 </tr>
-            {% endfor %}
-        </table>
+                {% for m, p in mat_prof %}
+                    <tr>
+                        <td>{{m.materia.nome}}</td>
+                        <td>
+                            <select id="select-table">
+                                {% for prof in p %}
+                                <option>{{prof.professor.nome}}</option> 
+                                {% endfor %}
+                            </select>
+    
+                        </td>
+                        <td>{{m.materia.carga_horaria}}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <button id="editar">Editar</button>
+        </div>
+        <div id="edit_al">
+            <form action="{% url 'edit_al' aluno.id %}" method="post">
+                {% csrf_token %}
+                <span>Nome</span>
+                <input name="nome" value="{{aluno.nome}}" placeholder="{{aluno.nome}}"><br>
+                <span>Trocar ou sair do curso</span>
+                <select name="cursos">
+                    <option value="{{aluno.curso_id}}"></option>
+                    {% for c in cursos %}
+                        {% if c.nome == '' %}
+                        <option value="{{c.id}}">Sair do curso</option>
+                        {% else %}
+                        <option value="{{c.id}}">{{c.nome}}</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+        <script src="{% static 'aluno.js' %}"></script>
     </body>
 </html>

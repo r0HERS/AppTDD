@@ -2,21 +2,34 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>{{curso.nome}}</title>
+
+        <title>{{professor.nome}}</title>
     </head>
     <body>
-        
-        <h1>{{curso.nome}}</h1> 
+        <div id="conteudo">
+            <a href="{% url 'index' %}">Voltar</a>
+            <h1>{{professor.nome}}</h1>
+            <h4>RP: {{professor.RP}}</h4>
+    
+            <h2>Materias:</h2>
+            <ul>
+                {% for materia in materias %}
+                    <li><a href="{% url 'edit_materia' materia.id %}">{{ materia.nome }}</a></li>
+                {% endfor %}
+            </ul>
+            <button id="edit">Editar</button>
+        </div>
         <div id="editar">
             <button id="voltar">Voltar</button>
-            <form action="{% url 'edit' curso.id %}" method="post">
+            <form action="{% url 'edit_prof' professor.id %}" method="post">
                 {% csrf_token %}
-                <span>Nome</span><input name="nome" value="{{curso.nome}}" placeholder="{{curso.nome}}">
-                <span>Campus</span><input name="campus" value="{{curso.campus}}" placeholder="{{curso.campus}}" >
-                <button id="add_mat" class="btn btn-success">Adicionar matérias</button>
+                <span>Nome</span><input name="nome" value="{{professor.nome}}" placeholder="{{professor.nome}}">
+                
+                <button id="add_mat" class="btn btn-success">Adicionar matérias </button>
                 <button id="del_mat">Deletar matérias</button>
+                <br>
                 <div id="add_materia">
-                    <label>Adicionar materia</label>
+                    <label>Adicionar materia à grade do professor</label>
                     <select name="ad_materias" >
                         <option value=""></option>
                         {% for outros in outras_mat %}
@@ -26,7 +39,7 @@
                     </select>
                 </div>
                 <div id="delete_materias">
-                    <label>Deletar materia</label>
+                    <label>Deletar materia da grade do professor</label>
                     <select name="del_materias" >
                         <option value=""></option>
                         {% for m in materias %}
@@ -38,19 +51,6 @@
                 <button type="submit">Enviar</button>
             </form>
         </div>
-        <div id="conteudo">
-            <a href="{% url 'index' %}">Voltar</a>
-            <h4>{{curso.campus}}</h4> 
-            <h6>Matérias</h6>
-            <ul>
-                {% for m in materias %}
-                <li>
-                    <a href="{% url 'edit_materia' m.id %}">{{m.nome}}</a> 
-                </li>
-                {% endfor %}
-            </ul>
-            <button id="edit">Editar</button>
-        </div>
-        <script src="{% static 'curso.js' %}"></script>
+        <script src="{% static 'professor.js' %}"></script>
     </body>
 </html>

@@ -4,33 +4,62 @@
     <head>
         <title>Home</title>
         <link href="{% static 'index.css' %}" rel="stylesheet">
+
     </head>
     <body>
         Escolha um dos tópicos para modificar 
         <div id="buttons">
             <button id="alunos">Alunos</button>
-            <button id="add_aluno">Adicionar professores</button>
-            <button id="update">Atualizar informções do curso</button>
-            <button id="delete">Deletar matérias</button>
+            <button id="professores">Professores</button>
+            <button id="cursos">Cursos</button>
+            <button id="materias">Materias</button>
         </div>
-        <div id="edit">
-            <button class="voltar">voltar</button>
-            {% for c in cursos %}
-            <div>
-                {{ c.nome }} <a href="{% url 'edit' c.id %}">Editar</a>
+        <div id="div_cursos">
+            <button class="voltar">voltar</button><br>
+            <button id="botao_add_c">Adicionar cursos</button>
+            <button id="botao_pc_curso">Procurar curso</button>
+            <button id="botao_mostrar_c">Mostrar todos cursos</button>
+            <div id="mostrar_cursos">
+                <ul>
+                    {% for c in cursos %}
+                    {% if c.nome != '' %}
+                        <li><a href="{% url 'edit' c.id %}">{{c.nome }}</a>  <a href="{% url 'del_curso' c.id %}">Excluir</a></li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
             </div>
-            {% endfor %}
+            <div id="proc_curso">
+                <form action="{% url 'search_curso' %}" method="post">
+                    {% csrf_token %}
+                    <input placeholder="Digite o nome do curso" name="nome">
+                    <button type="submit">Procurar</button>
+                </form>
+            </div>
+            <div id="add_curso">
+                <form id="curso_campos" action="{% url 'add_curso' %}" method="post">
+                    {% csrf_token %}
+                    <label>Nome</label> <input id="nome" name="nome">
+                    <label>Campus</label> <input id="campus" name="campus">
+                    <label>Materias do curso:</label>
+                    <select name="materias[]" id="materias" multiple>
+                        {% for m in materias %}
+                        <option value={{m.id}}>{{m.nome}}</option>
+                        {% endfor %}
+                    </select><br>
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
         </div>
         <div id="div_alunos">
-            <button class="voltar">voltar</button>
-            <button id="botao_add_al">Adicionar alunos</button>
+            <button class="voltar">voltar</button> <br>
+
+            <button id="botao_add_al" class="btn btn-success rounded-pill px-3">Adicionar alunos</button>
             <button id="botao_pc">Procurar aluno</button>
-            <button>Deletar alunos</button>
-            <button>Editar alunos</button>
+            <button id="botao_mostrar_al">Mostrar todos alunos</button>
             <div id="pc">
-                <form action="{% url 'search' %}" method="post" id="proc_form">
+                <form action="{% url 'search' '0' %}" method="post" id="proc_form">
                     {% csrf_token %}
-                    <input placeholder="Digite o RA de um aluno" name="RA">
+                    <input placeholder="Digite o nome de um aluno" name="RA">
                     <button type="submit">Procurar</button>
                 </form>
             </div>
@@ -41,40 +70,103 @@
                     <label>RA</label> <input id="RA" name="RA">
                     <label>Qual curso faz:</label>
                     <select name="al_curso">
-                        <option value=""></option>
                         {% for c in cursos %}
+                        {% if c.nome != '' %}
                         <option value="{{c.id}}">{{c.nome}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                     <button type="submit">Enviar</button>
                 </form>
             </div>
-        </div>
-        <div id="add">
-            <button class="voltar">voltar</button>
-            <form id="campos" action="{% url 'add' %}" method="post">
-                {% csrf_token %}
-                <label>Nome</label> <input id="nome" name="nome" >
-                <label>RP</label> <input id="RP" name="RP">
-                <label>Professor de:</label>
-                <select name="prof_mat">
-                    <option value=""></option>
-                    {% for m in materias %}
-                    <option value="{{m.id}}">{{m.nome}}</option>
+            <div id="mostrar_al">
+                <ul>
+                    {%for al in alunos %}
+                        <li><a href="{% url 'search' al.id %}" >{{al.nome}}</a>
+                            <a href="{% url 'del_al' al.id %}" >Excluir</a>
+                        </li>
+                        
                     {% endfor %}
-                </select>
-                <button type="submit">Enviar</button>
-            </form>
-  
+                </ul>
+
+            </div>
         </div>
 
-        <div id="del">
+        <div id="div_professores">
             <button class="voltar">voltar</button>
-            {% for a in materias %}
-            <div>
-                {{ a.nome }} <a id ="del_mat" href="{% url 'del' a.id %}">Excluir</a>
+            <button id="botao_cria_prof">Adicionar professores</button>
+            <button id="botao_pc_prof">Procurar professores</button>
+            <button id="botao_mostrar_profs">Mostrar todos professores</button>
+            <div id="pc_prof">
+                <form action="{% url 'search_prof' %}" method="post" id="proc_form">
+                    {% csrf_token %}
+                    <input placeholder="Digite o nome de um professor" name="RA">
+                    <button type="submit">Procurar</button>     
+                </form>
+
             </div>
-            {% endfor %}
+            <div id="cria_prof">
+                <form id="campos" action="{% url 'cria_prof' %}" method="post">
+                    {% csrf_token %}
+                    <label>Nome</label> <input id="nome" name="nome" >
+                    <label>RP</label> <input id="RP" name="RP">
+                    <label>Professor de:</label>
+                    <select name="prof_mat">
+                        <option value=""></option>
+                        {% for m in materias %}
+                        <option value="{{m.id}}">{{m.nome}}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+
+            <div id="mostrar_prof">
+                <ul>
+                    {% for p in professores %}
+                        <li><a href="{% url 'edit_prof' p.id %}" >{{p.nome}}</a>
+                            <a href="{% url 'del_prof' p.id %}" >Excluir</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+            </div>
+        </div>
+
+        <div id="div_materias">
+            <button class="voltar">voltar</button>
+            <button id="botao_add_mat">Adicionar materia</button>
+            <button id="botao_pc_mat">Procurar materia</button>
+            <button id="botao_mostrar_mat">Mostrar todas materias</button>
+            <div id="mostrar_materias">
+                {% for m in materias %}
+                <a href="{% url 'edit_materia' m.id %}">{{ m.nome }}</a> <a id ="del_mat" href="{% url 'del' m.id %}">Excluir</a><br>
+            
+                {% endfor %}
+
+            </div>
+
+            <div id="add_materias">
+                <form id="campos" action="{% url 'add_materia' %}" method="post">
+                    {% csrf_token %}
+                    <label>Nome</label> <input id="nome" name="nome" >
+                    <label>Carga horária</label> <input name="cg">
+                    <label>Professores que lecionam</label>
+                    <select name="professores[]" id="professores" multiple>
+                        {% for p in professores %}
+                        <option value={{p.id}}>{{p.nome}}</option>
+                        {% endfor %}
+                    </select><br>
+                    <button type="submit">Enviar</button>
+                </form>
+            </div>
+            <div id="proc_materias">
+                <form action="{% url 'search_materia' %}" method="post">
+                    {% csrf_token %}
+                    <input placeholder="Digite o nome da materia" name="nome">
+                    <button type="submit">Procurar</button>
+                </form>
+            </div>
 
         </div>
 

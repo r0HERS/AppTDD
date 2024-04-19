@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{materia.nome}}</title>
+    </head>
+    <body>
+        <div id="conteudo">
+            <a href="{% url 'index' %}">Voltar</a>
+            <h1>Nome: {{materia.nome}}</h1>
+            <h6> Carga horária: {{materia.carga_horaria}}</h6>
+            <h4>Professores</h4>
+            <ul>
+                {% for p in professores %}
+                <li>
+                    <a href="{% url 'edit_prof' p.id %}">{{p.nome}}</a>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <button id="edit">Editar</button>
+        </div>
+        <div id="editar">
+            <button id="voltar">Voltar</button>
+            <form action="{% url 'edit_materia' materia.id %}" method="post" >
+                {% csrf_token %}
+                <span>Nome</span><input name="nome" value="{{materia.nome}}" placeholder="{{materianome}}">
+                <span>Carga horária</span><input name="carga_horaria" value="{{materia.carga_horaria}}" placeholder="{{materia.carga_horaria}}" >
+                <br>
+                <button id="prof_materia_add" class="btn btn-success">Adicionar professores</button>
+                <button id="prof_materia_del">Deletar professores</button>
+                <div id="add_prof">
+                    <label>Adicionar professor</label>
+                    <select name="ad_professores" >
+                        <option value=""></option>
+                        {% for outros in outros_profs %}
+                        {% if outros.nome != '' %}
+                        <option value="{{outros.id}}">{{outros.nome}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        
+                    </select>
+                </div>
+                <div id="del_prof">
+                    <label>Deletar professores</label>
+                    <select name="del_professores"  >
+                        <option value=""></option>
+                        {% for p in professores %}
+                        
+                        <option value="{{p.id}}">{{p.nome}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <br>
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+
+        <script src="{% static 'materia.js' %}"></script>
+    </body>
+</html>
