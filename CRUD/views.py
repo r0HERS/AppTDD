@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.shortcuts import HttpResponse, HttpResponseRedirect, render
+from django.shortcuts import HttpResponse,get_object_or_404, HttpResponseRedirect, render
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from .models import Alunos,Professores,Materias,Cursos,Alunos_materia,Cursos_materia,Professores_materia
@@ -32,54 +32,63 @@ def add(request):
     return HttpResponseRedirect(reverse("index"))
 
 def dele(request,m_id):
-    p = Materias.objects.get(id=m_id)
-    p.delete()
-
-    return HttpResponseRedirect(reverse("index"))
+    if request.method == "POST":
+        m_id = request.POST.get('m_id')
+        
+        
+        q=Materias.objects.filter(id=m_id)
+        q.delete()
+        
+        return HttpResponseRedirect(reverse("index"))
+    else:
+         return HttpResponse("erro")
 
 def search(request):
-    a = Alunos.objects.get(nome=request.POST["RA"]) 
-    c=Cursos.objects.get(id=a.curso_id)
-    materias = Alunos_materia.objects.filter(aluno=a.id)
-    professores =[]
-    for m in materias:
-         professores.append(Professores_materia.objects.filter(materia=m.materia.id))
+    if request.method == "POST":
+        ra = request.POST.get("RA")
+        aluno = Alunos.objects.get(nome=ra)
+        curso = Cursos.objects.get(id=aluno.curso_id)
+        materias = Alunos_materia.objects.filter(aluno=aluno.id)
+        professores=[]
+        for m in materias:
+            professores.append(Professores_materia.objects.filter(materia=m.materia.id))
+        mat_prof = list(zip(materias, professores))
+        return render(request, 'aluno.html', {
+            'aluno': aluno,
+            'curso': curso,
+            'mat_prof': mat_prof,
+        })
+        
+    else:
+            return HttpResponse(f"Erro ao buscar aluno")
 
-    mat_prof=list(zip(materias,professores))
-
-    return render(request,'aluno.html',{
-        'aluno':a,
-        'curso':c,
-        'mat_prof':mat_prof,
-    })
+        
+    
 
 
-def edit(request,c_id):
-    c = Cursos.objects.get(id=c_id)
-   
+def edit(request, c_id):
+    curso = get_object_or_404(Cursos, id=c_id)
     
     if request.method == "POST":
-            nome=request.POST["nome"]
-            campus=request.POST['campus']
-            c.nome=nome
-            c.campus=campus
-            materia=request.POST["materias"]
-            if materia != "":
-                tirar_materia=Cursos_materia.objects.get(curso=c_id,materia=materia)
-                
-                tirar_materia.delete()
-
-
-            c.save()
-            return HttpResponseRedirect(reverse('edit',args=[c_id]))
+        nome = request.POST.get("nome")
+        campus = request.POST.get("campus")
+        materias_ids = request.POST.getlist("materias")  
+        
+       
+        curso.nome = nome
+        curso.campus = campus
+        curso.save()
+        
+        
+        curso_materias = Cursos_materia.objects.filter(curso=curso)
+        for curso_materia in curso_materias:
+            if curso_materia.materia.id not in materias_ids:
+                curso_materia.delete()
+        
+        return HttpResponseRedirect(reverse('edit', args=[c_id]))
     else:
-        
         materias = Cursos_materia.objects.filter(curso=c_id)
-        
-        return render(request,'curso.html',{
-            'curso':c,
-            'materias':materias
-        })
+        return render(request, 'curso.html', {'curso': curso, 'materias': materias})
 
 
 
